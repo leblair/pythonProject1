@@ -11,7 +11,8 @@ class Llibreta:
 
 
     def get_llista_clients(self):
-        print(self.llista_clients)
+        for i in self.llista_clients:
+            print(i.__str__())
 
     def afegir_client(self,nom,cognom,telefon,correu,adreca,ciutat):
         client = Client(self.id_client,nom,cognom,telefon,correu,adreca,ciutat)
@@ -22,7 +23,7 @@ class Llibreta:
         found = False
         for i in self.llista_clients:
             if id == i.identificador:
-                print("Cliente: " , i.identificador, " eliminado")
+                print("Eliminado:\n", i.__str__())
                 self.llista_clients.remove(i)
                 found = True
 
