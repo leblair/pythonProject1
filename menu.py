@@ -32,3 +32,16 @@ def mostrar_menu_consulta():
             print("No es una opcio valida")
     return option
 
+def menu_modificar_client():
+    valid = False
+    option = None
+    print("Quin camp vols modificar?")
+    print("1. Nom\n2. Cognom\n3. Telefon\n4. Correu\n5. Adreca\n6. Ciutat")
+    while not valid:
+        option = input("Enter an option:")
+        if option.isdigit():
+            option = int(option)
+            valid = True
+        else:
+            print("No es una opcio valida")
+    return option

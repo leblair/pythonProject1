@@ -1,9 +1,11 @@
+
 from client import Client
 from llibreta import Llibreta
 import menu
 
+#Cliente default para hacer pruebas:
 llista_clientsA = []
-cliente0 = Client()
+cliente0 = Client(0,"cliente","default","0000","mail","adress","city")
 llista_clientsA.append(cliente0)
 id_client =0
 libreta = Llibreta(llista_clientsA,0)
@@ -12,6 +14,7 @@ option2 = None
 exit = False
 exitConsult = None
 while not exit:
+    exit = False
     option = menu.mostrar_menu_principal()
     if option ==1:
         nom = input("Entra el nom:")
@@ -26,8 +29,8 @@ while not exit:
         idBuscar  = int(input("Entra el identificador de client:"))
         libreta.eliminar_client(idBuscar)
     if option==3:
+        exitConsult = False
         while not exitConsult:
-            exitConsult =False
             option2 = menu.mostrar_menu_consulta()
             if option2==1:
                 idBuscar = int(input("Entra el identificador de client:"))
@@ -47,10 +50,12 @@ while not exit:
             if option2 ==4:
                 libreta.get_llista_clients()
             if option2 ==5:
-                libreta.llista_clients.sort(key=lambda x: x.nom)
+                libreta.ordenar_por_nombre()
                 libreta.get_llista_clients()
             if option2 ==6:
                 exitConsult =True
+    if option ==4:
+        libreta.modificar_camp_client()
     if option ==5:
         exit = True
 

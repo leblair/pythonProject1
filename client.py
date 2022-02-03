@@ -16,17 +16,10 @@ class Client:
         self.nom = nom
         self.identificador = identificador
 
-    """def __gt__(self, client):
-        return self.nom>client.nom"""
-
-    @property
-    def (self):
-        return
-    @.setter
-    def (self, value):
-        pass
+    def nom(self):
+        return self.nom
 
     def __str__(self):
-        return "Cliente: ", self.identificador, "Nom: ", self.nom
+        return "Cliente_id: ", self.identificador, "Nom: ", self.nom,"Telefon: ",self.telefon,"Correu: ", self.correu,"Adreca: ",self.adreca,"Ciutat: ",self.ciutat
 
 
