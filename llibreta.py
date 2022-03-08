@@ -1,7 +1,25 @@
 from client import Client
+import psycopg2
 from menu import menu_modificar_client
 
 class Llibreta:
+
+    try:
+        conn = psycopg2.connect("dbname='Bddemo' user='odoo' host='172.17.0.1'password='odoo'")
+        cur = conn.cursor()
+        print("Exercici 1:")
+        cur.execute("DROP TABLE IF EXISTS cliente")
+        command = (
+            "CREATE TABLE cliente (cliente_id VARCHAR(199), cliente_name VARCHAR(255), cliente_cognom VARCHAR(255), cliente_telefon VARCHAR(255), cliente_correu VARCHAR(255), cliente_adreca VARCHAR(255), cliente_ciutat VARCHAR(255))")
+        cur.execute(command)
+        conn.commit()
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
     llista_clients = []
     id_client = 0
 
@@ -34,15 +52,41 @@ class Llibreta:
         # sort list by `name` in the natural order
         self.llista_clients.sort(key=lambda x: x.nom.lower())
 
-    def get_llista_clients(self):
-        for i in self.llista_clients:
-            print(i.__str__())
+    # def get_llista_clients(self):
+    #     for i in self.llista_clients:
+    #         print(i.__str__())
+    #
+    # """def afegir_client(cur, conn, nombre, cognom, telefon, correo, adreca,
+    #                   ciutat):  # falta añadir que el id sea el ultimo encontrado
+    #
+    # cur.execute(
+    #     "insert into libretaPython (nombre, cognom, telefon, correo,adreca,ciutat) values(" + "'" + nombre + "','" + cognom + "','" + telefon + "','" + correo + "','" + adreca + "','" + ciutat + "')")
+    # conn.commit()
+    # print("Cliente añadido")"""
 
-    def afegir_client(self,nom,cognom,telefon,correu,adreca,ciutat):
-        client = Client(self.id_client,nom,cognom,telefon,correu,adreca,ciutat)
-        self.id_client+=1
-        self.llista_clients.append(client)
+    def afegir_client(self, nom, cognom, telefon, correu, adreca, ciutat):
+
+        client = Client(self.id_client, nom, cognom, telefon, correu, adreca, ciutat)
+        self.id_client += 1
+        # self.llista_clients.append(client)
         print(client.__str__())
+        # insertar cliente en la tabla de Bddemo:
+
+        idstr = str(self.id_client)
+
+        try:
+            conn = psycopg2.connect("dbname='Bddemo' user='odoo' host='172.17.0.1'password='odoo'")
+            cur = conn.cursor()
+
+            cur.execute(
+                "INSERT INTO cliente(cliente_id,cliente_name,cliente_cognom,cliente_telefon,cliente_correu,cliente_adreca,cliente_ciutat) VALUES(" + "'" + idstr + "','" + nom + "','" + cognom + "','" + telefon + "','" + correu + "','" + adreca + "','" + ciutat + "')")
+
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                conn.close()
 
     def eliminar_client(self, id):
         found = False
